@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div class="green-border">
-		<h2>Private GitHub Repository</h2>
+		<p><a href="https://slavetomints.github.io/writeups/writeups/2024/2024.html">2024</a> / <a href="https://slavetomints.github.io/writeups/2024/1337UP/1337UP.html">1337UP Live</a> / <a href="https://slavetomints.github.io/writeups/2024/1337UP/osint/osint.html">OSINT</a> / <a href="https://slavetomints.github.io/writeups/2024/1337UP/osint/private-github-repository.html">Private GitHub Repository</a></p>
 		<md-block>
 			# Private Github Repository
 
@@ -45,7 +45,7 @@
 			
 			![Poking around the repository](assets/image6.png)
 			
-			Hm, thats not very helpful. A further inspection of `git log` shows only the one commit, and there's nothing hidden in the `.git` directory. Is this the end of the line? We know we need to find Tiffany's username since she made a fork of the repository. We know she did because Bob alluded to it in his first message, and now in the recent `readme.md`. If only we had a way to authenticate a key... but wait! we do! Lets take a closer look at the `ssh` command.
+			Hm, thats not very helpful. A further inspection of `git log` shows only the one commit, and there's nothing hidden in the `.git` directory. Is this the end of the line? We also know we need to find Tiffany's username since she made a fork of the repository. We know she did because Bob alluded to it in his first message, and now in the recent `readme.md`. If only we had a way to authenticate a key... but wait! we do! Lets take a closer look at the `ssh` command.
 			
 			```
 			┌─[slavetomints@parrot]─[~]
@@ -59,9 +59,9 @@
 								 [-w local_tun[:remote_tun]] destination [command [argument ...]]
 			```
 			
-			Now, most of that isn't going to be useful to us, except for the `-i` option Checking the manpage for `ssh` also shows up the `-T` option. Lets take a closer look at each.
+			Now, most of that isn't going to be useful to us, except for the `-i` option. Checking the manpage for `ssh` also shows up the `-T` option. Lets take a closer look at each.
 			
-			The `-T` option tells ssh to no allocate a pseudo-terminal for the connection. Since we don't need a terminal for authenticating, theres no reason to allocate one. This should show the difference between using and not using it.
+			The `-T` option tells `ssh` to no allocate a pseudo-terminal for the connection. Since we don't need a terminal for authenticating, theres no reason to allocate one. This should show the difference between using and not using it.
 			
 			```
 			┌─[slavetomints@parrot]─[~]
@@ -86,7 +86,7 @@
 			
 			![Poking around Tiffany's 1337 repository](assets/image9.png)
 			
-			However, `git log` does show that theres been 4 commits on this repo. While its possible to use `git diff [<options>] [<commit>]` to see the changes in a commit, I prefer to use VSCodes built in git log functionality. And looking at the changelogs there for previous commits reveals...
+			However, `git log` does show that theres been 4 commits on this repo. While its possible to use `git diff [<options>] [<commit>]` to see the changes in a commit, I prefer to use VSCode's built in git log functionality. And looking at the changelogs for previous commits reveals...
 			
 			![git log on the repository](assets/image10.png)
 			
@@ -102,15 +102,15 @@
 			
 			Finally! We've found the flag, but we should clean up first. All we'll need to do is run `ssh-add -d is_rsa` to remove that key, because we don't need it anymore, and we're all good! Hopefully you learned a thing or two about git and GitHub on your way here.
 			
-			FLAG: INTIGRITI{9e0121bb8bce15ead3d7f529a81b77b4}
+			FLAG: `INTIGRITI{9e0121bb8bce15ead3d7f529a81b77b4}`
 		</md-block>
 	</div>
 	
 	<nav class="green-border" id="larger-margins">
 		<ul>
-			<li><a href="./writeups/index.html">Home</a></li>
-			<li><a href="./writeups/writeups.html">Writeups</a></li>
-			<li><a href="./writeups/about.html">About</a></li>
+			<li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+			<li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+			<li><a href="https://slavetomints.github.io/writeups/about.html">About</a></li>
 		</ul>
 	</nav>
 

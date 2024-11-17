@@ -5,6 +5,11 @@ body {
   font-weight: 400;
   font-style: normal;
 }
+
+body li {
+  margin: 10px;
+}
+
 body a {
   color: #00FF00;
   text-decoration: none;

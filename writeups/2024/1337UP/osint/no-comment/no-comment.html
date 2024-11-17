@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://slavetomints.github.io/writeups/style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+	<title>Challenge</title>
+</head>
+<body>
+
+	<nav class="green-border" id="larger-margins">
+		<h1>Slavetomints' Writeups</h1>
+		<p><i>A collection of my writeups from various CTF'S</i></p>
+		<ul>
+			<li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+			<li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+			<li><a href="https://slavetomints.github.io/writeups/about.html">About</a></li>
+		</ul>
+	</nav>
+
+	<div class="green-border">
+		<p><a href="https://slavetomints.github.io/writeups/writeups/2024/2024.html">2024</a> / <a href="https://slavetomints.github.io/writeups/writeups/2024/1337UP/1337UP.html">1337UP Live</a> / <a href="https://slavetomints.github.io/writeups/writeups/2024/1337UP/osint/osint.html">OSINT</a> / <a href="https://slavetomints.github.io/writeups/writeups/2024/1337UP/osint/no-comment/no-comment.html">No Comment</a></p>
+		<md-block>
+      # No Comment
+
+      Challenge description:
+      
+      > Or is there? 🤔
+      
+      We get this... psychedelic image
+      
+      ![ripple.jpg](assets/ripple.jpg)
+      
+      With a description about as obvious as a script kiddie on social media, we know that we are looking for a comment somewhere. So, lets use exiftool. Exiftool is an amazing digital forensics tool that can be used both on the command line and as a Perl library. It's designed to scrape out all avaliable metadata from an image
+      
+      ![exiftool results](assets/image1.png)
+      
+      We see the image has a comment, but what does it mean? 
+      
+      Here's the part where I was stumped. I had no idea where to even go with the comment of `/a/pq6TgwS`. CyberChef had nothing, I had nothing, but thankfully while working on another task I noticed the format for images on `Imgur.com` matched perfectly. So armed with this knowledge, I headed to `https://www.imgur.com/a/pq6TgwS` and found:
+      
+      ![imgur results](assets/image2.png)
+      
+      Finally, something I can work with. Something interesting about Base64 is that if the string isn't long enough it pads the ending with equals signs, so this immediately rose suspicion as we decoded the message (with CyberChef ofc).
+      
+      ![decoded message](assets/image3.png)
+      
+      Yes... Yes it has. Following the pastebin link surprisingly doesn't lead us to a scam, but rather to a locked paste. Using the password provided earlier `long_strange_trip` reveals a cryptic string of numbers and letters. Checking out the user's profile we can see that they made another paste and this time its about XORing passwords. The article attached is a hint that they might not know to not reuse passwords yet.
+      
+      ![first paste](assets/image4.png)
+      
+      ![second paste](assets/image5.png)
+      
+      So lets hit up `dcode.fr` the site for all things ciphers, codes, and cryptography, and run a XOR through it with the weird string we got earlier, using the same password as a key. 
+      
+      ![decoded](image6.png)
+      
+      Bullseye!
+      
+      FLAG: `INTIGRITI{instagram.com/reel/C7xYShjMcV0}`
+		</md-block>
+	</div>
+	
+	<nav class="green-border" id="larger-margins">
+		<ul>
+			<li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+			<li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+			<li><a href="https://slavetomints.github.io/writeups/about.html">About</a></li>
+		</ul>
+	</nav>
+
+	<script type="module" src="https://md-block.verou.me/md-block.js"></script>
+</body>
+</html>

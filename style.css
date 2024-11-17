@@ -5,6 +5,17 @@ body {
   font-weight: 400;
   font-style: normal;
 }
+body a {
+  color: #00FF00;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 25px;
+}
+  
+body a:hover{
+  background-color: #00FF00;
+  color: #000000;
+}
 
 nav {
   text-align: center;
@@ -40,6 +51,32 @@ nav h1 {
   margin-bottom: auto;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  img {
+    width: 100%;
+  }
+}
+
+md-block code {
+  color: #FFFFFF;
+}
+
+md-block blockquote {
+  color: #FF4500
+}
+
+md-block img {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #larger-margins {
   margin: 2% 15% 5% 15%;
 }
@@ -50,6 +87,7 @@ nav h1 {
   border-width: 5px;
   border-radius: 15px;
   margin: 2% 5% 5% 5%;
+  padding: 5%;
 }
 
 .green-border h2 {

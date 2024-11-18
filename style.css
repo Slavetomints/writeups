@@ -76,6 +76,16 @@ md-block blockquote {
   color: #FF4500
 }
 
+md-block blockquote a:hover {
+  background-color: #FF4500;
+  color: #000000;
+}
+
+md-block blockquote a {
+  color: #FF4500;
+  text-decoration: none;
+}
+
 md-block img {
   text-align: center;
   margin-left: auto;

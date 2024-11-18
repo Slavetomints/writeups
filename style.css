@@ -28,6 +28,10 @@ body a {
   border-radius: 25px;
 }
 
+body li {
+  padding: 10px;
+}
+
 body a:hover {
   background-color: #00FF00;
   color: #000000;

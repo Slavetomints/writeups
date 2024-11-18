@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://slavetomints.github.io/writeups/style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+	<title>BabyFlow</title>
+</head>
+<body>
+
+	<nav class="green-border" id="larger-margins">
+		<h1>Slavetomints' Writeups</h1>
+		<p><i>A collection of my writeups from various CTF'S</i></p>
+		<ul>
+			<li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+			<li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+			<li><a href="https://slavetomints.github.io/writeups/about.html">About</a></li>
+		</ul>
+	</nav>
+
+	<div class="green-border">
+		<p><a href="https://slavetomints.github.io/writeups/writeups/2024/2024.html">2024</a> / <a href="https://slavetomints.github.io/writeups/writeups/2024/1337UP/1337UP.html">1337UP Live</a> / <a href="https://slavetomints.github.io/writeups/writeups/2024/1337UP/warmup/warmup.html">Warmup</a> / <a href="https://slavetomints.github.io/writeups/writeups/2024/1337UP/warmup/babyflow/babyflow.html">BabyFlow</a></p>
+		<md-block>
+      # BabyFlow
+
+      Challenge description:
+      
+      > Does this login application even work?!
+      
+      For this one we are provided a remote connection, where we are then prompted for a password.
+      
+      ![first test](assets/image1)
+      
+      We are also provided the binary behind the program, and once we open it in Ghidra we see this
+      
+      ![Ghidra output](assets/image2)
+      
+      Looking at the `strncmp`, we see the password that it wants us to get is `SuPeRsEcUrEPaSsWoRd123`, however it checks if we are admin. We also can see that it compares only the first 22 characters, so it is vulnerable to some overflow. 
+      
+      ![flagged!](assets/image3)
+      
+      FLAG: `INTIGRITI{b4bypwn_9cdfb439c7876e703e307864c9167a15}`
+      
+      
+		</md-block>
+	</div>
+	
+	<nav class="green-border" id="larger-margins">
+		<ul>
+			<li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+			<li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+			<li><a href="https://slavetomints.github.io/writeups/about.html">About</a></li>
+		</ul>
+	</nav>
+
+	<script type="module" src="https://md-block.verou.me/md-block.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

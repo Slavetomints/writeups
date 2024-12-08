@@ -189,6 +189,10 @@ md-block p code {
   border-radius: 0;
 }
 
+md-block pre code {
+  background-color: transparent !important;
+}
+
 md-block blockquote p {
   color: #FF4500;
 }

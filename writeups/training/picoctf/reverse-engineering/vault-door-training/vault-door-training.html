@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://slavetomints.github.io/writeups/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <title>Vault Door Training</title>
+</head>
+<body>
+
+  <nav class="green-border" id="larger-margins">
+    <h1>Slavetomints' Writeups</h1>
+    <p><i>A collection of my writeups from various CTF'S</i></p>
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="green-border">
+    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/picoctf/picoctf.html">picoCTF</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/picoctf/reverse-engineering/reverse-engineering.html">Reverse Engineering</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/picoctf/reverse-engineering/vault-door-training/vault-door-training.html">Vault Door Training</a></p>
+    <md-block>
+      # vault-door-training
+
+Challenge description:
+
+> Your mission is to enter Dr. Evil's laboratory and retrieve the blueprints for his Doomsday Project. The laboratory is protected by a series of locked vault doors. Each door is controlled by a computer and requires a password to open. Unfortunately, our undercover agents have not been able to obtain the secret passwords for the vault doors, but one of our junior agents obtained the source code for each vault's computer! You will need to read the source code for each level to figure out what the password is for that vault door. As a warmup, we have created a replica vault in our training facility. The source code for the training vault is here: [VaultDoorTraining.java](https://jupiter.challenges.picoctf.org/static/03c960ddcc761e6f7d1722d8e6212db3/VaultDoorTraining.java)
+
+Alrighty then, time to check out my Java skills, lets download the file and see what we get
+
+## VaultDoorTraining.java
+
+```java
+
+import java.util.*;
+
+class VaultDoorTraining {
+    public static void main(String args[]) {
+        VaultDoorTraining vaultDoor = new VaultDoorTraining();
+        Scanner scanner = new Scanner(System.in); 
+        System.out.print("Enter vault password: ");
+        String userInput = scanner.next();
+	String input = userInput.substring("picoCTF{".length(),userInput.length()-1);
+	if (vaultDoor.checkPassword(input)) {
+	    System.out.println("Access granted.");
+	} else {
+	    System.out.println("Access denied!");
+	}
+   }
+
+    // The password is below. Is it safe to put the password in the source code?
+    // What if somebody stole our source code? Then they would know what our
+    // password is. Hmm... I will think of some ways to improve the security
+    // on the other doors.
+    //
+    // -Minion #9567
+    public boolean checkPassword(String password) {
+        return password.equals("w4rm1ng_Up_w1tH_jAv4_3808d338b46");
+    }
+}
+```
+
+Oh you poor poor minion. You're so screwed. Lets validate the code just to double check.
+
+```
+
+┌─[slavetomints@parrot]─[~]
+└──╼ $ java VaultDoorTraining.java
+Enter vault password: picoCTF{w4rm1ng_Up_w1tH_jAv4_3808d338b46}
+Access granted.
+```
+
+FLAG: `picoCTF{w4rm1ng_Up_w1tH_jAv4_3808d338b46}`
+    </md-block>
+  </div>
+  
+  <nav class="green-border" id="larger-margins">
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

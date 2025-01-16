@@ -9,7 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-  <title><%= html_descriptors['challenge'] %></title>
+  <title>bandit3</title>
 </head>
 <body>
 
@@ -25,9 +25,56 @@
   </nav>
 
   <div class="green-border">
-    <p><a href="https://slavetomints.github.io/writeups/writeups/<%= file_descriptors['year'] %>/<%= file_descriptors['year'] %>.html"><%= html_descriptors['year'] %></a> / <a href="https://slavetomints.github.io/writeups/writeups/<%= file_descriptors['year'] %>/<%= file_descriptors['ctf'] %>/<%= file_descriptors['ctf'] %>.html"><%= html_descriptors['ctf'] %></a> / <a href="https://slavetomints.github.io/writeups/writeups/<%= file_descriptors['year'] %>/<%= file_descriptors['ctf'] %>/<%= file_descriptors['category'] %>/<%= file_descriptors['category'] %>.html"><%= html_descriptors['category'] %></a> / <a href="https://slavetomints.github.io/writeups/writeups/<%= file_descriptors['year'] %>/<%= file_descriptors['ctf'] %>/<%= file_descriptors['category'] %>/<%= file_descriptors['challenge'] %>/<%= file_descriptors['challenge'] %>.html"><%= html_descriptors['challenge'] %></a></p>
+    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/overthewire.html">OverTheWire</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit.html">Bandit</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit3/bandit3.html">bandit3</a></p>
     <md-block>
-      <%= markdown %>
+      # bandit3
+
+> ssh bandit3@bandit.labs.overthewire.org -p 2220
+
+> The password for the next level is stored in a hidden file in the **inhere** directory.
+
+After `ssh`ing into the server, lets check out that directory.
+
+```
+
+bandit3@bandit:~$ ls
+inhere
+bandit3@bandit:~$ cd inhere
+bandit3@bandit:~/inhere$ ls
+bandit3@bandit:~/inhere$ 
+```
+
+Hm, nothing, let's talk a little bit about `ls`. 
+
+## ls
+`ls` is short for the word list, and it does just that. it lists all the files and directories in the specified directory. If no directory is given, then it uses the current one. By default, hidden files and directories (those with a period in front of them), do not show up as they are considered "hidden". The man page shows this for the `-a` flag
+
+```
+  -a, --all                  do not ignore entries starting with .
+```
+
+So, rerunning the earlier command with that flag we get.
+
+```
+
+bandit3@bandit:~/inhere$ ls -a
+.  ..  ...Hiding-From-You
+```
+
+The `.` and `..` are the current directory and the directory one level higher up respectively, like how they would be used with `cd`. 
+
+Now that we know what the name of the file is, lets use cat to figure it out.\
+
+```
+
+bandit3@bandit:~/inhere$ cat ...Hiding-From-You 
+{hidden in accordance with game rules}
+```
+
+Bingo!
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTQwMTM4MDE2M119
+-->
     </md-block>
   </div>
   

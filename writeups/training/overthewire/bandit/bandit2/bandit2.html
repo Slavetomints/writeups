@@ -9,7 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-  <title><%= html_descriptors['challenge'] %></title>
+  <title>bandit2</title>
 </head>
 <body>
 
@@ -25,9 +25,41 @@
   </nav>
 
   <div class="green-border">
-    <p><a href="https://slavetomints.github.io/writeups/writeups/<%= file_descriptors['year'] %>/<%= file_descriptors['year'] %>.html"><%= html_descriptors['year'] %></a> / <a href="https://slavetomints.github.io/writeups/writeups/<%= file_descriptors['year'] %>/<%= file_descriptors['ctf'] %>/<%= file_descriptors['ctf'] %>.html"><%= html_descriptors['ctf'] %></a> / <a href="https://slavetomints.github.io/writeups/writeups/<%= file_descriptors['year'] %>/<%= file_descriptors['ctf'] %>/<%= file_descriptors['category'] %>/<%= file_descriptors['category'] %>.html"><%= html_descriptors['category'] %></a> / <a href="https://slavetomints.github.io/writeups/writeups/<%= file_descriptors['year'] %>/<%= file_descriptors['ctf'] %>/<%= file_descriptors['category'] %>/<%= file_descriptors['challenge'] %>/<%= file_descriptors['challenge'] %>.html"><%= html_descriptors['challenge'] %></a></p>
+    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/overthewire.html">OverTheWire</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit.html">Bandit</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit2/bandit2.html">bandit2</a></p>
     <md-block>
-      <%= markdown %>
+      # bandit2
+
+> ssh bandit2@bandit.labs.overthewire.org -p 2220
+
+> The password for the next level is stored in a file called **spaces in this filename** located in the home directory
+
+Alrighty, the challenge this time is to `cat` the contents of a file whose name has spaces in it. What happens if we just try to use the file as it?
+
+```
+
+bandit2@bandit:~$ ls
+spaces in this filename
+bandit2@bandit:~$ cat spaces in this filename
+cat: spaces: No such file or directory
+cat: in: No such file or directory
+cat: this: No such file or directory
+cat: filename: No such file or directory
+```
+
+So there's two ways we can do this, the first way is arguably easier and its through simply putting the filename in quotes. The other way involves using the escape character `\` in front of each space to signal that it is part of the string and not part of the command .\
+
+```
+
+bandit2@bandit:~$ cat 'spaces in this filename' 
+{hidden in accordance with game rules}
+bandit2@bandit:~$ cat spaces\ in\ this\ filename 
+{hidden in accordance with game rules}
+```
+
+Now using that password, lets go check out bandit3!
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTE1NzYyMDk4MjUsMzE2NjIxODddfQ==
+-->
     </md-block>
   </div>
   

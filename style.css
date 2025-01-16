@@ -84,6 +84,15 @@ img {
   display: block;
 }
 
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #00FF00;
+  padding: 10px;
+}
+
 @media (max-width: 768px) {
   img {
     width: 100%;

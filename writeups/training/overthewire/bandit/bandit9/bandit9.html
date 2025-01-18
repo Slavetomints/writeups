@@ -9,7 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-  <title>bandit6</title>
+  <title>bandit9</title>
 </head>
 <body>
 
@@ -25,32 +25,31 @@
   </nav>
 
   <div class="green-border">
-    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/overthewire.html">OverTheWire</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit.html">Bandit</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit6/bandit6.html">bandit6</a></p>
+    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/overthewire.html">OverTheWire</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit.html">Bandit</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit9/bandit9.html">bandit9</a></p>
     <md-block>
-      # bandit6
+      # bandit9
 
-> ssh bandit6@bandit.labs.overthewire.org -p 2220
+> ssh bandit9@bandit.labs.overthewire.org -p 2220
+>  
+>  The password for the next level is stored in the file **data.txt** in one of the few human-readable strings, preceded by several ‘=’ characters.
 
-> The password for the next level is stored **somewhere on the server** and has all of the following properties:
->
-> >   owned by user bandit7
-
-> >   owned by group bandit6
-
-> >   33 bytes in size
-
-Alrighty, this one seems like the last challenge but it is asking for some different properties. The biggest thing that stick out is that they specified that it is somewhere on the server, implying that it wont be in our home directory. That's fine, all we need to do is navigate to the root directory and run another instance of `find`.
-
-With this search we are going to use the `-size`, `-group`, and `-user` flags to help refine what we're looking for. 
-
-We set the size to `-size 33c` as that only looks for files that are 33bytes in size, the `-group bandit6` and `-user bandit7` in following with the challenge description.
+Alrighty, so the first thing we need to do is figure out the type of file `data.txt` is, since the question mentions that there aren't very many human readable strings in it.
 
 ```
 
-bandit6@bandit:/$ find -user bandit7 -group bandit6 -size 33c 2>/dev/null
-./var/lib/dpkg/info/bandit7.password
-bandit6@bandit:/$ cat /var/lib/dpkg/info/bandit7.password 
-{removed in accordance with game rules}
+bandit9@bandit:~$ file data.txt 
+data.txt: data
+```
+
+Okay, since this isn't an ASCII text file, we'll need to use something other than `cat` to work it out. While we could use `cat` we run the risk of it breaking out terminal since we're outputting binary data through standard output. Instead, we'll use `strings` to output all strings to the terminal screen. Using that we'll also use `grep` to filter for the several '=' characters.
+
+```
+
+bandit9@bandit:~$ strings data.txt | grep =========
+}========== the
+3JprD========== passwordi
+~fDV3========== is
+D9========== {removed in accordance with game rules}
 ```
     </md-block>
   </div>

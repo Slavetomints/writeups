@@ -9,7 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-  <title>bandit6</title>
+  <title>bandit14</title>
 </head>
 <body>
 
@@ -25,31 +25,31 @@
   </nav>
 
   <div class="green-border">
-    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/overthewire.html">OverTheWire</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit.html">Bandit</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit6/bandit6.html">bandit6</a></p>
+    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/overthewire.html">OverTheWire</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit.html">Bandit</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit14/bandit14.html">bandit14</a></p>
     <md-block>
-      # bandit6
+      # bandit14
 
-> ssh bandit6@bandit.labs.overthewire.org -p 2220
+> ssh ba prondit14@bandit.labs.overthewire.org -p 2220 -i sshkey.private
+>  
+>  The password for the next level can be retrieved by submitting the password of the current level to **port 30000 on localhost**.
 
-> The password for the next level is stored **somewhere on the server** and has all of the following properties:
->
-> >   owned by user bandit7
-
-> >   owned by group bandit6
-
-> >   33 bytes in size
-
-Alrighty, this one seems like the last challenge but it is asking for some different properties. The biggest thing that stick out is that they specified that it is somewhere on the server, implying that it wont be in our home directory. That's fine, all we need to do is navigate to the root directory and run another instance of `find`.
-
-With this search we are going to use the `-size`, `-group`, and `-user` flags to help refine what we're looking for. 
-
-We set the size to `-size 33c` as that only looks for files that are 33bytes in size, the `-group bandit6` and `-user bandit7` in following with the challenge description.
+So, this challenge would be really easy if we had ya know, the password. But since we logged in with the SSH key, we didn't need the password. Thankfully, we were told in the last challenge that the password was stored at `/etc/bandit_pass/bandit14` so lets go get it really quick.
 
 ```
 
-bandit6@bandit:/$ find -user bandit7 -group bandit6 -size 33c 2>/dev/null
-./var/lib/dpkg/info/bandit7.password
-bandit6@bandit:/$ cat /var/lib/dpkg/info/bandit7.password 
+bandit14@bandit:~$ cat /etc/bandit_pass/bandit14
+{removed in accordance with game rules}
+```
+
+For this challenge, its asking us to submit the password to port `30000` on `localhost`, which is out own machine, aka `127.0.0.1`. We can open this connecting with Netcat, which is, according to the GNU Netcat project, "a featured networking utility which reads and writes data across network connections, using the TCP/IP protocol." All we need to know for now is that the syntax for netcat is `nc ip_address port` So in our case, we're looking to make a connection with `nc localhost 30000`.
+
+Nothing will happen and thats okay. Past in the password for bandit14, and you should get prompted that that answer was correc tand you'll get the next password.
+
+```
+
+bandit14@bandit:~$ nc localhost 30000
+{removed in accordance with game rules}
+Correct!
 {removed in accordance with game rules}
 ```
     </md-block>

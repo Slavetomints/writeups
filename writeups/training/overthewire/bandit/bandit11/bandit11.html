@@ -9,7 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-  <title>bandit6</title>
+  <title>bandit11</title>
 </head>
 <body>
 
@@ -25,32 +25,29 @@
   </nav>
 
   <div class="green-border">
-    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/overthewire.html">OverTheWire</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit.html">Bandit</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit6/bandit6.html">bandit6</a></p>
+    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/overthewire.html">OverTheWire</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit.html">Bandit</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit11/bandit11.html">bandit11</a></p>
     <md-block>
-      # bandit6
+      # bandit11
 
-> ssh bandit6@bandit.labs.overthewire.org -p 2220
+> ssh bandit11@bandit.labs.overthewire.org -p 2220
+>  
+>  The password for the next level is stored in the file **data.txt**, where all lowercase (a-z) and uppercase (A-Z) letters have been rotated by 13 positions
 
-> The password for the next level is stored **somewhere on the server** and has all of the following properties:
->
-> >   owned by user bandit7
+For this funky challenge we are going to make use of `tr`, which stands for translate, and use it to translate the content of the file. The first thing we'll need to do is define the character set we're using, which is going to look like `a-zA-Z`, aka all alphabetic characters lowercase and uppercase, and then define what we are going to translate that to, which is going to look like `n-za-mN-ZA-M`. This second part is a bit more tricky to figure out, but we can rewrite the first set to look like `a-mn-zA-MN-Z` and it makes a bit more sense. I'll put it in a table so we can understand it a little better.
 
-> >   owned by group bandit6
+| Original Set | Translated Set |
+|:---------------:|:---------------:|
+| a-m | n-z |
+| n-z | a-m |
+| A-M | N-Z |
+| N-Z | A-M |
 
-> >   33 bytes in size
-
-Alrighty, this one seems like the last challenge but it is asking for some different properties. The biggest thing that stick out is that they specified that it is somewhere on the server, implying that it wont be in our home directory. That's fine, all we need to do is navigate to the root directory and run another instance of `find`.
-
-With this search we are going to use the `-size`, `-group`, and `-user` flags to help refine what we're looking for. 
-
-We set the size to `-size 33c` as that only looks for files that are 33bytes in size, the `-group bandit6` and `-user bandit7` in following with the challenge description.
+So lets now try our command with the data in `data.txt`
 
 ```
 
-bandit6@bandit:/$ find -user bandit7 -group bandit6 -size 33c 2>/dev/null
-./var/lib/dpkg/info/bandit7.password
-bandit6@bandit:/$ cat /var/lib/dpkg/info/bandit7.password 
-{removed in accordance with game rules}
+bandit11@bandit:~$ cat data.txt | tr 'a-mn-zA-MN-Z' 'n-za-mN-ZA-M'
+The password is {removed in accordance with game rules}
 ```
     </md-block>
   </div>

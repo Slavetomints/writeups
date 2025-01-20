@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://slavetomints.github.io/writeups/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <title>bandit22</title>
+</head>
+<body>
+
+  <nav class="green-border" id="larger-margins">
+    <h1>Slavetomints' Writeups</h1>
+    <p><i>A collection of my writeups from various CTF'S</i></p>
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="green-border">
+    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/overthewire.html">OverTheWire</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit.html">Bandit</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit22/bandit22.html">bandit22</a></p>
+    <md-block>
+      # bandit22
+
+> ssh bandit22@bandit.labs.overthewire.org -p 2220
+>  
+>  A program is running automatically at regular intervals from **cron**, the time-based job scheduler. Look in **/etc/cron.d/** for the configuration and see what command is being executed.
+
+Same deal as last level, the `cron` job reveals a shell script. Let's take a look at that shell script.
+
+```
+
+bandit22@bandit:~$ cat /usr/bin/cronjob_bandit23.sh
+#!/bin/bash
+
+myname=$(whoami)
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+cat /etc/bandit_pass/$myname > /tmp/$mytarget
+```
+
+First the script sets the user's name to the `myname` variable, and then uses it in a string that gets obfuscated. That string ends up being the temp file where the password from bandit23 gets saved. The way to access this is to use the same obfuscation method used there, piping the string "I am user bandit23" into `md5sum` and uses `cut` to format it some more.
+
+Let's set up the command the same way, substituting the `$myname` with the actual value of the name so we can figure out where the password is hiding, and `cat` the results of that.
+
+```
+
+bandit22@bandit:~$ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+8ca319486bfbbc3663ea0fbe81326349
+bandit22@bandit:~$ cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+{removed according to game rules}
+```
+
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbNTc4OTU2NTM3LC0yMDk1NjA4Mzg4LDg2OT
+EwODk1MiwtMTc4MDk1NzgyNywxODUwODQzNjc4LDM0MTU0Njk4
+MSwtMTE4MDgwMzAwOCwtMTM0NjY4OTMxNiwtMjA0NzIyOTI3OC
+wxNDY2MDY5MjA0LC0yMDg4NzQ2NjEyXX0=
+-->
+    </md-block>
+  </div>
+  
+  <nav class="green-border" id="larger-margins">
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

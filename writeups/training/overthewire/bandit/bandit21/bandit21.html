@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://slavetomints.github.io/writeups/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <title>bandit21</title>
+</head>
+<body>
+
+  <nav class="green-border" id="larger-margins">
+    <h1>Slavetomints' Writeups</h1>
+    <p><i>A collection of my writeups from various CTF'S</i></p>
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="green-border">
+    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/overthewire.html">OverTheWire</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit.html">Bandit</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit21/bandit21.html">bandit21</a></p>
+    <md-block>
+      # bandit21
+
+> ssh bandit21@bandit.labs.overthewire.org -p 2220
+>  
+>  A program is running automatically at regular intervals from **cron**, the time-based job scheduler. Look in **/etc/cron.d/** for the configuration and see what command is being executed.
+
+So for this one, we need to decipher a `cron` job. `cron` is a time-based job scheduler, where users can create a job to run at regular intervals. Wikipedia has an example template that looks like this:
+
+```
+
+# * * * * * <command to execute>
+# | | | | |
+# | | | | day of the week (0–6) (Sunday to Saturday; 
+# | | | month (1–12)             7 is also Sunday on some systems)
+# | | day of the month (1–31)
+# | hour (0–23)
+# minute (0–59)
+```
+
+So, let's check out what is inside of `/etc/cron.d`
+
+```
+
+bandit21@bandit:~$ ls /etc/cron.d/
+cronjob_bandit22  cronjob_bandit23  cronjob_bandit24  e2scrub_all  otw-tmp-dir  sysstat
+```
+
+Hm, now that we know what's there, the `cronjob_bandit22` is probably the one that pertains to us, so lets take a quick look inside there. 
+
+```
+
+bandit21@bandit:~$ cat /etc/cron.d/cronjob_bandit22
+@reboot bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+* * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+```
+
+Now that we know the command the job is running, lets pop open that shell script and see if we can find anything more important in there.
+
+```
+
+bandit21@bandit:~$ cat /usr/bin/cronjob_bandit22.sh
+#!/bin/bash
+chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+```
+
+Looks like it changes the readability of a temp directory to readable by everyone, and then puts the password for bandit22 inside of it!
+
+```
+
+bandit21@bandit:~$ cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+{removed in accordance with games rules}
+```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTE5NjE5ODY5OTcsLTIwMzE1MTIyMjcsLT
+YwODYzNzQwNSwtMjA4ODc0NjYxMl19
+-->
+    </md-block>
+  </div>
+  
+  <nav class="green-border" id="larger-margins">
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

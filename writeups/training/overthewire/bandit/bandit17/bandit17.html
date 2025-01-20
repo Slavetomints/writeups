@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://slavetomints.github.io/writeups/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <title>bandit17</title>
+</head>
+<body>
+
+  <nav class="green-border" id="larger-margins">
+    <h1>Slavetomints' Writeups</h1>
+    <p><i>A collection of my writeups from various CTF'S</i></p>
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="green-border">
+    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/overthewire.html">OverTheWire</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit.html">Bandit</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/overthewire/bandit/bandit17/bandit17.html">bandit17</a></p>
+    <md-block>
+      # bandit17
+
+> ssh bandit17@bandit.labs.overthewire.org -p 2220 -i sshkey.private 
+>  
+>  There are 2 files in the homedirectory: **passwords.old and passwords.new**. The password for the next level is in **passwords.new** and is the only line that has been changed between **passwords.old and passwords.new**
+
+*If you are having issues with your identify file, make sure that you update the permissions so that only you can read from it.*
+
+This one is pretty easy, we're going to be using the `diff` command today, which shows us the difference between two files. The way the syntax works for this level is we'll use `diff passwords.new passwords.old`. And it'll show us the lines that are different, in order of the files in the command.
+
+```
+
+bandit17@bandit:~$ diff passwords.new passwords.old 
+42c42
+< {removed in accordance with game rules}
+---
+> ktfgBvpMzWKR5ENj26IbLGSblgUG9CzB
+```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTYyMjM2NTA4MiwtMjA4ODc0NjYxMl19
+-->
+    </md-block>
+  </div>
+  
+  <nav class="green-border" id="larger-margins">
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

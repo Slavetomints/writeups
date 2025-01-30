@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://slavetomints.github.io/writeups/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <title>repetitions</title>
+</head>
+<body>
+
+  <nav class="green-border" id="larger-margins">
+    <h1>Slavetomints' Writeups</h1>
+    <p><i>A collection of my writeups from various CTF'S</i></p>
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="green-border">
+    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/picoctf/picoctf.html">picoCTF</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/picoctf/general-skills/general-skills.html">General Skills</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/picoctf/general-skills/repetitions/repetitions.html">repetitions</a></p>
+    <md-block>
+      # repetitions
+
+Challenge description:
+
+> Can you make sense of this file?
+
+Alrighty, so this file is `base64` encoded, as can be told by the telltale equals signs at the end of the file.
+
+```
+
+┌─[slavetomints@parrot]─[~]
+└──╼ $cat enc_flag 
+VmpGU1EyRXlUWGxTYmxKVVYwZFNWbGxyV21GV1JteDBUbFpPYWxKdFVsaFpWVlUxWVZaS1ZWWnVh
+RmRXZWtab1dWWmtSMk5yTlZWWApiVVpUVm10d1VWZFdVa2RpYlZaWFZtNVdVZ3BpU0VKeldWUkNk
+MlZXVlhoWGJYQk9VbFJXU0ZkcVRuTldaM0JZVWpGS2VWWkdaSGRXCk1sWnpWV3hhVm1KRk5XOVVW
+VkpEVGxaYVdFMVhSbHBWV0VKVVZGWm9RMlZzV2tWUmJFNVNDbUpXV25wWmExSmhWMGRHZEdWRlZs
+aGkKYlRrelZERldUMkpzUWxWTlJYTkxDZz09Cg==
+```
+
+For this all you need to do is use the `base64` command with the `-d` flag set in order to decrypt it.
+
+```
+┌─[slavetomints@parrot]─[~]
+└──╼ $base64 -d enc_flag 
+VjFSQ2EyTXlSblJUV0dSVllrWmFWRmx0TlZOalJtUlhZVVU1YVZKVVZuaFdWekZoWVZkR2NrNVVX
+bUZTVmtwUVdWUkdibVZXVm5WUgpiSEJzWVRCd2VWVXhXbXBOUlRWSFdqTnNWZ3BYUjFKeVZGZHdW
+MlZzVWxaVmJFNW9UVVJDTlZaWE1XRlpVWEJUVFZoQ2VsWkVRbE5SCmJWWnpZa1JhV0dGdGVFVlhi
+bTkzVDFWT2JsQlVNRXNLCg==
+```
+
+Hm, still encrypted with base 64, lets use the pipe "`|`" to send the output into the same command `base64 -d`.
+
+```
+
+┌─[slavetomints@parrot]─[~]
+└──╼ $base64 -d enc_flag | base64 -d
+V1RCa2MyRnRTWGRVYkZaVFltNVNjRmRXYUU5aVJUVnhWVzFhYVdGck5UWmFSVkpQWVRGbmVWVnVR
+bHBsYTBweVUxWmpNRTVHWjNsVgpXR1JyVFdwV2VsUlZVbE5oTURCNVZXMWFZUXBTTVhCelZEQlNR
+bVZzYkRaWGFteEVXbm93T1VOblBUMEsK
+```
+
+Lets keep going until we are able to decrypt it.
+
+```
+
+┌─[slavetomints@parrot]─[~]
+└──╼ $base64 -d enc_flag | base64 -d | base64 -d
+WTBkc2FtSXdUbFZTYm5ScFdWaE9iRTVxVW1aaWFrNTZaRVJPYTFneVVuQlpla0pyU1ZjME5GZ3lV
+WGRrTWpWelRVUlNhMDB5VW1aYQpSMXBzVDBSQmVsbDZXamxEWnowOUNnPT0K
+┌─[slavetomints@parrot]─[~]
+└──╼ $base64 -d enc_flag | base64 -d | base64 -d | base64 -d
+Y0dsamIwTlVSbnRpWVhObE5qUmZiak56ZEROa1gyUnBZekJrSVc0NFgyUXdkMjVzTURSa00yUmZa
+R1psT0RBell6WjlDZz09Cg==
+┌─[slavetomints@parrot]─[~]
+└──╼ $base64 -d enc_flag | base64 -d | base64 -d | base64 -d | base64 -d
+cGljb0NURntiYXNlNjRfbjNzdDNkX2RpYzBkIW44X2Qwd25sMDRkM2RfZGZlODAzYzZ9Cg==
+┌─[slavetomints@parrot]─[~]
+└──╼ $base64 -d enc_flag | base64 -d | base64 -d | base64 -d | base64 -d | base64 -d
+picoCTF{base64_n3st3d_dic0d!n8_d0wnl04d3d_dfe803c6}
+```
+
+FLAG: `picoCTF{base64_n3st3d_dic0d!n8_d0wnl04d3d_dfe803c6}`
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbODMxMDI1NDcxLDEyMDQyNjEwMjMsNTU4NT
+ExNzgzXX0=
+-->
+    </md-block>
+  </div>
+  
+  <nav class="green-border" id="larger-margins">
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

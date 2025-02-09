@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://slavetomints.github.io/writeups/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <title>PW Crack 2</title>
+</head>
+<body>
+
+  <nav class="green-border" id="larger-margins">
+    <h1>Slavetomints' Writeups</h1>
+    <p><i>A collection of my writeups from various CTF'S</i></p>
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="green-border">
+    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/picoctf/picoctf.html">picoCTF</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/picoctf/general-skills/general-skills.html">General Skills</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/picoctf/general-skills/pw-crack-2/pw-crack-2.html">PW Crack 2</a></p>
+    <md-block>
+      # PW Crack 2
+
+Challenge description:
+
+> Can you crack the password to get the flag?
+
+Similar to the precursor challenge to this one (PW Crack 1), we are given a python script to decipher the encoded flag. Upon analysis of the python script we see a similar vulnerabilitiy to the one that we previously had come across. Let's take a look at the code now.
+
+```python
+
+### THIS FUNCTION WILL NOT HELP YOU FIND THE FLAG --LT ########################
+def str_xor(secret, key):
+    #extend key to secret length
+    new_key = key
+    i = 0
+    while len(new_key) < len(secret):
+        new_key = new_key + key[i]
+        i = (i + 1) % len(key)        
+    return "".join([chr(ord(secret_c) ^ ord(new_key_c)) for (secret_c,new_key_c) in zip(secret,new_key)])
+###############################################################################
+
+flag_enc = open('level2.flag.txt.enc', 'rb').read()
+
+
+
+def level_2_pw_check():
+    user_pw = input("Please enter correct password for flag: ")
+    if( user_pw == chr(0x34) + chr(0x65) + chr(0x63) + chr(0x39) ):
+        print("Welcome back... your flag, user:")
+        decryption = str_xor(flag_enc.decode(), user_pw)
+        print(decryption)
+        return
+    print("That password is incorrect")
+
+
+
+level_2_pw_check()
+```
+
+Once again, we have user input being saved into `user_pw`, and it is being checked against some obfuscated password. In python, the `chr()` method will turn the hexadecimal code for a character into its Unicode/ASCII equivalent. With this we can easily decrypt the password with a single `print()` call.
+
+```
+
+┌─[slavetomints@parrot]─[~]
+└──╼ $python
+Python 3.11.2 (main, Month Day Year, HH:MM:SS) [GCC 12.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> print(chr(0x34) + chr(0x65) + chr(0x63) + chr(0x39))
+4ec9
+```
+
+And if we run the script with that password we'll get the following:
+
+```
+
+┌─[slavetomints@parrot]─[~/training/picoCTF/general-skills/pw-crack-2]
+└──╼ $python level2.py 
+Please enter correct password for flag: 4ec9
+Welcome back... your flag, user:
+picoCTF{tr45h_51ng1ng_9701e681}
+```
+
+FLAG: `picoCTF{tr45h_51ng1ng_9701e681}`
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbNjc0MTYxNzkyXX0=
+-->
+    </md-block>
+  </div>
+  
+  <nav class="green-border" id="larger-margins">
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

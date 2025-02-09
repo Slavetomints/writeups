@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://slavetomints.github.io/writeups/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <title>Commitment Issues</title>
+</head>
+<body>
+
+  <nav class="green-border" id="larger-margins">
+    <h1>Slavetomints' Writeups</h1>
+    <p><i>A collection of my writeups from various CTF'S</i></p>
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="green-border">
+    <p><a href="https://slavetomints.github.io/writeups/writeups/training/training.html">Training</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/picoctf/picoctf.html">picoCTF</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/picoctf/general-skills/general-skills.html">General Skills</a> / <a href="https://slavetomints.github.io/writeups/writeups/training/picoctf/general-skills/commitment-issues/commitment-issues.html">Commitment Issues</a></p>
+    <md-block>
+      # Commitment Issues 
+
+Challenge description: 
+
+> I accidentally wrote the flag down. Good thing I deleted it!
+
+For this challenge, we are given a git repository. Inside the git repository, we'll find a file named `message.txt` and we can see that inside of it it says `TOP SECRET`. We know that they probably have the flag in the older versions of the file, so lets look at the past using the command `git log`
+
+```
+
+┌─[slavetomints@parrot]─[~/drop-in]
+└──╼ $git log
+commit 8dc51806c760dfdbb34b33a2008926d3d8e8ad49 (HEAD -> master)
+Author: picoCTF &lt;ops@picoctf.com&gt;
+Date:   Tue Mar 12 00:06:17 2024 +0000
+
+    remove sensitive info
+
+commit 87b85d7dfb839b077678611280fa023d76e017b8
+Author: picoCTF &lt;ops@picoctf.com&gt;
+Date:   Tue Mar 12 00:06:17 2024 +0000
+
+    create flag
+```
+
+Looks like the flag is hidden in an older commit. Thankfully, there is a command to see the difference between two commits. That command is `git diff`, and we'll be using this variation of it ` git diff [<options>] <commit>...<commit>`
+
+```
+
+┌─[slavetomints@parrot]─[~/drop-in]
+└──╼ $git diff 8dc51806c760dfdbb34b33a2008926d3d8e8ad49 87b85d7dfb839b077678611280fa023d76e017b8
+diff --git a/message.txt b/message.txt
+index d552d1e..bae247d 100644
+--- a/message.txt
++++ b/message.txt
+@@ -1 +1 @@
+-TOP SECRET
++picoCTF{s@n1t1z3_ea83ff2a}
+```
+
+FLAG: `picoCTF{s@n1t1z3_ea83ff2a}`
+    </md-block>
+  </div>
+  
+  <nav class="green-border" id="larger-margins">
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

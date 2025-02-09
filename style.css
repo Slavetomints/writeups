@@ -93,6 +93,10 @@ td, th {
   padding: 10px;
 }
 
+td code, th code {
+  color: #FFFFFF;
+}
+
 @media (max-width: 768px) {
   img {
     width: 100%;

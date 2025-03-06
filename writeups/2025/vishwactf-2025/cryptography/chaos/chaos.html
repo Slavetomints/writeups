@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://slavetomints.github.io/writeups/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <title>Chaos</title>
+</head>
+<body>
+
+  <nav class="green-border" id="larger-margins">
+    <h1>Slavetomints' Writeups</h1>
+    <p><i>A collection of my writeups from various CTF'S</i></p>
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="green-border">
+    <p><a href="https://slavetomints.github.io/writeups/writeups/2025/2025.html">2025</a> / <a href="https://slavetomints.github.io/writeups/writeups/2025/vishwactf-2025/vishwactf-2025.html">VishwaCTF 2025</a> / <a href="https://slavetomints.github.io/writeups/writeups/2025/vishwactf-2025/cryptography/cryptography.html">Cryptography</a> / <a href="https://slavetomints.github.io/writeups/writeups/2025/vishwactf-2025/cryptography/chaos/chaos.html">Chaos</a></p>
+    <md-block>
+      # Chaos
+
+Challenge description:
+
+> You've stumbled upon a bunch of garbled nonsense—some might call them "encrypted messages," but who really knows? Most of it is just random junk, but hidden somewhere in this mess is an actual secret. No keys, no hints, just you and the chaos. Good luck figuring it out—if you even can.
+
+Alrighty, here we are given two files, and both are as shown below:
+
+## output.txt
+
+```
+
+P-JjxWp#BYd|_`ZYGH3^FnD1zaeH-me0+X8b#p#lK~hH*5E=$(S_wx=RZmL~SX4?3
+
+Pjez}Wqf2}D1BmXEPrcmd@*!?b#gX-YdLUkZ)rYoPDBDgOhi;hOI=S{3`s{xR#ZS%T0s_3N&gt;*1JT~SgWG$|)AA!Q&YBP=;|
+
+R%mf+b7VzRPI63VIBHQqVoqEmU`j%NENw+9Z$e6U6Ml16K~{1W7)Mt
+
+O&lt;;RrVI^{JZ7FPLZE7xNV=;PqaB*{aIDB?!d1`igQbY_53I
+
+R%mf+b7VzRPI6v5JW@kDerQcqAburCUUe&gt;9Z$eow5Ji1&QASN#
+
+Pjez_YIbj9Z7FLjZ(?I&b$@0veS0=zaC|ywb7*XQMFBxfKtLG
+
+RB3B)By4pjW@dgXcx7uZc71bnI5mB8eQ7#(b8&gt;ZdPDTR
+
+Pjez}Wqf2}D1BmXerPFtFmN(pcV~ZRY&m^?a(HZhR7gxj1V~d$TtHe!NexI&TT~KNSX5C&7+phET~JqCAuTRCdj
+
+R%mf+b7VzRPI5_kRegFtPjWzNL_sD&lt;DSky#XhJV+e^PBu7kUv-L1#^LSRHX|089
+
+O&lt;;RrVI^;KFM29sVt!|9bun{&dtrWZYB_mxeQ|PnPDV!$1V&UyTUrNMNlQyzRbNqBT2dBKR9Ia|0{
+
+Pjez_cO`FgHv
+
+LUeW`b7XIGCMP5-Wqx2NWHDxYeP%XecXm2-ertDdRZ&lt;-
+
+S7~E+By3&lt;OVSO!lENm`kabkKidvi8paC|yxd3&lt;s|MomLR8v
+
+R%mf+b7VzRPI5$KSW;SNRZc*5by-PqRCrxPS1v72e^qc=6&gt;C9S
+
+Pjez`ZDC?!W+`K3ENoyed3&lt;wpaW!LPad&+?Z)tmYK~GIYRzy}$Q5F
+
+NMLeveI;&kW_@F2Yb*
+
+R%mf+b7VzRPI6N_c~V(sTzySlCu1dLM_(&-ctS60T&gt;
+
+Pjez}Wqf2}D1BmXEPrcmd@*!?b#gX-YdLaqczJtq07y(wO+iBkNeMziNJ&dU5La7YQ3?
+
+MrdqjTXAk;S9@=2U{Yvfadu5$dw6qTaC~TfLv(OJR7p!vdq_i6TL
+
+PiZbAU~FP1ab|xjcx7i{dogBvbzwGOd1^Xod3&lt;sp0BT1@R0Tp#PfkNcOAG
+```
+
+## challenge.p​y
+
+```python
+import random
+import base64
+import os
+
+messages = []
+with open('https://x.com/Abhinav04139720.txt', 'rb') as f:
+    for line in f.readlines():
+        messages.append(line.strip())
+
+with open('flag.txt', 'rb') as f:
+    flag = f.read().strip()
+messages.append(flag)
+
+random.shuffle(messages)
+
+def xor_encrypt(msg):
+    transformed = bytearray(msg)
+    for i in range(len(transformed)):
+        transformed[i] ^= (i % 256)  
+    return base64.b85encode(transformed).decode() 
+
+with open('output.txt', 'w') as f:
+    for msg in messages:
+        encrypted_msg = xor_encrypt(msg)
+        f.write(f'{encrypted_msg}\n\n')
+
+```
+
+Looking at `challenge.py`, it appears that its pulling some text from `https://x.com/Abhinav04139720.txt` and `flag.txt`, shuffling the order of the line, then encoding each using `xor`, and then writing it to a file named `output.txt`. That's all fine and dandy, but what is `XOR`?
+
+## XOR
+
+`XOR`, or `exclusive or` is a logic gate. In a basic sense, a logic gates are ["device[s] that performs a Boolean function"](https://en.wikipedia.org/wiki/Logic_gate). They preform the most basic computation that a computer chip needs in order to function. You computer chip has hundreds of millions of logic gates on it, in order to work the way that it does. The `XOR` gate looks as such:
+
+![XOR gate](https://graphicmaths.com/img/computer-science/logic/combining-logic-gates/xor-create-gate.png)
+
+But, what does it actually do? It compares two values, both of which are either 0 or 1, and returns `1` if the two are different, and `0` if they are different for example:
+
+| Input 1 | Input 2 | Output |
+| -- | -- | -- |
+| 0 | 0 | 0 |
+| 0 | 1 | 1 |
+| 1 | 0 | 1 |
+| 1 | 1 | 0 |
+
+As you can see, where the input were different, a `1` was returned. The nice thing about this is that if you simply preform the `XOR` again and it will decrypt itself, as long as you use the same key.
+
+## Back to the Challenge
+
+Now that we know how `XOR` works, this challenge is pretty simple. First off, the function `xor_encrypt` takes the message and turns it into an array of bytes, and then preforms an `XOR` on each byte in the array using the output of `index MOD 256`, so know we know the key to use in decrypting it. And finally it returns the `XOR`ed message encoded in `base85`. I'm not too concerned about the shuffling of the messages since its a simple task to decrypt them all. Let's take a look now at the solution
+
+## My Solution
+
+```python
+
+import base64
+
+def xor_decrypt(msg):
+    decoded_msg = base64.b85decode(msg)
+    transformed = bytearray(decoded_msg)
+    for i in range(len(transformed)):
+        transformed[i] ^= (i % 256)
+    return bytes(transformed)
+
+encrypted_messages = []
+
+with open('output.txt', 'r') as f:
+    encrypted_messages = f.read().split('\n\n')
+
+decrypted_messages = []
+for encrypted_msg in encrypted_messages:
+    decrypted_msg = xor_decrypt(encrypted_msg)
+    decrypted_messages.append(decrypted_msg.decode())
+
+for message in decrypted_messages:
+    print(message)
+
+```
+
+It's almost the same as the encryption script, in fact some parts are the exact same, but utilizing the same logic from earlier we can easily decrypt it all. Lets take a look at what that looks like.
+
+```
+
+┌─[slavetomints@parrot]─[~]
+└──╼ $python3 py.py 
+
+Perhaps the flag is encoded in Base64? Or maybe hex?
+Or maybe the real flag is just one character different from all these fakes?
+VishwaCTF{Fl4g_Or_N0t_Th4t_1s_Th3_QuesT10n}
+Maybe the flag is hidden elsewhere...
+VishwaCTF{T00_M4ny_F4k3_Fl4Gs_G00d_Luck}
+Or inside a comment in the source code?
+This is not the flag, keep looking!
+Or maybe there's a script generating multiple fake flags dynamically?
+VishwaCTF{CrYpt0_cRyPT0_1g_It_1s_sOm3_7hiNg_t0_D0}
+Maybe it's inside another challenge, cross-referencing flags?
+Or is it?
+But wait... isn't this too obvious?
+What if it's a hash of the real flag?
+VishwaCTF{NoT_ThE_ReaL_fLaG_K33P_tRy1Ng}
+Or hidden in an image using steganography?
+Happy hunting!
+VishwaCTF{Y0u_WiLl_N3v3r_F1nd_1t}
+Or maybe the real flag is hidden inside a hidden file?
+Find_the_real_flag_somewhere_in_this_mess
+Oh, did you think that was real? Keep digging!
+```
+
+Looks like we have a few flags, lets submit the one that doesn't allude to being a fake flag.
+
+FLAG: `VishwaCTF{CrYpt0_cRyPT0_1g_It_1s_sOm3_7hiNg_t0_D0}`
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTQ1OTY1NTIyOV19
+-->
+    </md-block>
+  </div>
+  
+  <nav class="green-border" id="larger-margins">
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

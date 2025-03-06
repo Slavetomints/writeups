@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://slavetomints.github.io/writeups/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <title>Aria of the Lost Code</title>
+</head>
+<body>
+
+  <nav class="green-border" id="larger-margins">
+    <h1>Slavetomints' Writeups</h1>
+    <p><i>A collection of my writeups from various CTF'S</i></p>
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="green-border">
+    <p><a href="https://slavetomints.github.io/writeups/writeups/2025/2025.html">2025</a> / <a href="https://slavetomints.github.io/writeups/writeups/2025/vishwactf-2025/vishwactf-2025.html">VishwaCTF 2025</a> / <a href="https://slavetomints.github.io/writeups/writeups/2025/vishwactf-2025/cryptography/cryptography.html">Cryptography</a> / <a href="https://slavetomints.github.io/writeups/writeups/2025/vishwactf-2025/cryptography/aria-of-the-lost-code/aria-of-the-lost-code.html">Aria of the Lost Code</a></p>
+    <md-block>
+      # Aria of the Lost Code
+
+Challenge description: 
+
+> A shattered data shard from an ancient relic has been recovered. It hums with a cryptic resonance, revealing a fragmented inscription in an unknown script. After intense decryption efforts, a single phrase emerged:
+>
+> "The melody echoes beyond the void."
+>
+> Can you uncover the true message hidden within?
+> 
+> Flag Format:
+> VishwaCTF{A4v4_a4a_4aa4a_Aa_44a4a4a4}
+
+All we are given for this challenge is a single image with some patterns on it:
+
+![the challenge](assets/Chall_crypto.png)
+
+Now, I highly doubt that this is a novel encoding, so lets do a quick reverse image search to look for similar ciphers. And as a result of that I found the following:
+
+![hymmnos](assets/Hymmnos.png)
+
+Looks like we have the cipher down, now all we need to do is decrypt it and we'll be on our way!
+
+FLAG: `VishwaCTF{H4v3_y0u_7ri3d_Ar_70n3l1c0}`
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTQyNDUwNDAzMiw1NzIwNzYwNzRdfQ==
+-->
+    </md-block>
+  </div>
+  
+  <nav class="green-border" id="larger-margins">
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

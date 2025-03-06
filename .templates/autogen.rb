@@ -6,8 +6,8 @@ require 'fileutils'
 require 'tty-prompt'
 
 def main
-  display_main_menu
-  get_type_of_doc
+  display_main_menu()
+  get_type_of_doc()
 end
 
 def display_main_menu
@@ -258,4 +258,4 @@ def get_descriptors(type)
   descriptors
 end
 
-main
+main()

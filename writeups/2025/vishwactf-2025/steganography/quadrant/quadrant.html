@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://slavetomints.github.io/writeups/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="https://slavetomints.github.io/writeups/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <title>QuadRant</title>
+</head>
+<body>
+
+  <nav class="green-border" id="larger-margins">
+    <h1>Slavetomints' Writeups</h1>
+    <p><i>A collection of my writeups from various CTF'S</i></p>
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/index.html">About Me</a></li>
+    </ul>
+  </nav>
+
+  <div class="green-border">
+    <p><a href="https://slavetomints.github.io/writeups/writeups/2025/2025.html">2025</a> / <a href="https://slavetomints.github.io/writeups/writeups/2025/vishwactf-2025/vishwactf-2025.html">VishwaCTF 2025</a> / <a href="https://slavetomints.github.io/writeups/writeups/2025/vishwactf-2025/steganography/steganography.html">Steganography</a> / <a href="https://slavetomints.github.io/writeups/writeups/2025/vishwactf-2025/steganography/quadrant/quadrant.html">QuadRant</a></p>
+    <md-block>
+      # QuadRant
+
+Challenge description:
+
+> Four pieces of a forgotten code lie before you. Each fragment holds a part of a greater whole, but the puzzle is incomplete. Your task: find the pattern, align the pieces, and unlock the final code. Once the pieces fall into place, scan what you’ve created to uncover the secret within.
+>
+> Let the search begin.
+
+Hm, cryptic (not) description, but lets look at what we're given
+
+![Part 1](assets/flag1.png)
+![Part 2](assets/flag2.png)
+![Part 3](assets/flag3.png)
+![Part 4](assets/flag4.png)
+
+Since we have 4 parts of a QR code, lets layer them all on top of each other and see what we get from that.
+
+![The reconstructed QR code](assets/image0.png)
+
+Now, and interesting thing about QR codes is that you don't actually need to entire code to recreate the data that it had encoded, so lets scan it with our camera and get that flag.
+
+FLAG: `VishwaCTF{aG9lMTIzNDU2c3Bhc3NhZ2U=}`
+
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTEzMDc2NjgxODQsMjA3NTcwODEyMywxOD
+EzMTQ3NzYsNzMwOTk4MTE2XX0=
+-->
+    </md-block>
+  </div>
+  
+  <nav class="green-border" id="larger-margins">
+    <ul>
+      <li><a href="https://slavetomints.github.io/writeups/index.html">Home</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/writeups.html">Writeups</a></li>
+      <li><a href="https://slavetomints.github.io/writeups/guides.html">Guides</a></li>
+      <li><a href="https://slavetomints.github.io/index.html">About Me</a></li>
+    </ul>
+  </nav>
+
+  <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>
